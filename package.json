@@ -1,0 +1,29 @@
+{
+  "name": "payweekly_route_planning",
+  "version": "1.0.0",
+  "description": "Takes an array of postcodes, and returns a planned route via the google maps api.",
+  "main": "index.js",
+  "scripts": {
+    "test": "test",
+    "client": "cd client && yarn start",
+    "server": "nodemon server/server.js",
+    "dev": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\"",
+    "test": "export NODE_ENV=test || SET \"NODE_ENV=test\" && mocha server/**/*.test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "payweekly_route_planning"
+  },
+  "keywords": [
+    "na"
+  ],
+  "author": "Samuel Gray",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "@google/maps": "^0.4.6",
+    "body-parser": "^1.18.2",
+    "express": "^4.16.3",
+    "express-validator": "^5.1.0",
+    "lodash": "^4.17.5"
+  }
+}
