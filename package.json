@@ -4,9 +4,10 @@
   "description": "Takes an array of postcodes, and returns a planned route via the google maps api.",
   "main": "index.js",
   "scripts": {
+    "start": "export NODE_ENV=prod || node index.js",
     "test": "test",
     "client": "cd client && yarn start",
-    "server": "nodemon server/server.js",
+    "server": "nodemon index.js",
     "dev": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\"",
     "test": "export NODE_ENV=test || SET \"NODE_ENV=test\" && mocha server/**/*.test.js"
   },
