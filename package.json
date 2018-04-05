@@ -4,7 +4,7 @@
   "description": "Takes an array of postcodes, and returns a planned route via the google maps api.",
   "main": "index.js",
   "scripts": {
-    "start": "export NODE_ENV=prod || node index.js",
+    "start": "node index.js $PORT",
     "test": "test",
     "client": "cd client && yarn start",
     "server": "nodemon index.js",
