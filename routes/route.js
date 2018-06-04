@@ -7,28 +7,35 @@ const googleMapsClient = require('@google/maps').createClient({
 
 // GET / - Retrieve waypoints for given postcodes.
 router.get('/', (req, res) => {
+    var postcodes = req.query['postcodes'];
+    var processedPostcodes = [];
+
+    postcodes.forEach(function (postcode) {
+        processedPostcodes.push(postcode['waypoint']);
+    });
+
     googleMapsClient.directions({
         origin: req.query['origin'],
         destination: req.query['destination'],
-        optimize: true,
-        waypoints: req.query['postcodes'],
+        optimize: JSON.parse(req.query['optimize']),
+        waypoints: processedPostcodes.join('|'),
         mode: 'driving',
         units: 'imperial'
     }, function (err, response) {
         if (!err) {
-            if(response.json['routes']) {
+            if (response.json['routes']) {
                 const route = response.json['routes'][0];
-                if(route['legs']) {
+                if (route['legs']) {
                     const legs = route['legs'];
-                    const postcode_array = req.query['postcodes'].split('|');
                     let tmp_postcode_array = [];
-                    route['waypoint_order'].forEach(function(order_key, key) {
-                       tmp_postcode_array[key] = postcode_array[order_key];
+
+                    route['waypoint_order'].forEach(function (order_key, key) {
+                        tmp_postcode_array[key] = postcodes[order_key];
                     });
-                    legs.forEach(function(leg, key){
-                        leg.postcode = tmp_postcode_array[key];
-                        if(typeof(tmp_postcode_array[key]) === 'undefined') {
-                            leg.postcode = req.query['destination'];
+                    legs.forEach(function (leg, key) {
+                        if (typeof(tmp_postcode_array[key]) !== 'undefined') {
+                            leg.postcode = tmp_postcode_array[key].waypoint;
+                            leg.id = tmp_postcode_array[key].id;
                         }
                     });
                     return res.status(200).send(legs);

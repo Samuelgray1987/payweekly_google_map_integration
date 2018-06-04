@@ -19,5 +19,7 @@ app.use('/node/api/route/planning', routes);
 // start listening for requests
 app.listen(port, () => {});
 
+console.log('App running on' + port);
+
 // export app (so we can test)
 module.exports = app;
