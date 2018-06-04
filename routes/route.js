@@ -9,15 +9,19 @@ const googleMapsClient = require('@google/maps').createClient({
 router.get('/', (req, res) => {
     var postcodes = req.query['postcodes'];
     var processedPostcodes = [];
-
+    var optimize = false;
     postcodes.forEach(function (postcode) {
         processedPostcodes.push(postcode['waypoint']);
     });
 
+    if(req.query['optimize'] == true) {
+        optimize = true;
+    }
+
     googleMapsClient.directions({
         origin: req.query['origin'],
         destination: req.query['destination'],
-        optimize: JSON.parse(req.query['optimize']),
+        optimize: optimize,
         waypoints: processedPostcodes.join('|'),
         mode: 'driving',
         units: 'imperial'
