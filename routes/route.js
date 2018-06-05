@@ -23,6 +23,7 @@ router.get('/', (req, res) => {
         destination: req.query['destination'],
         optimize: optimize,
         waypoints: processedPostcodes.join('|'),
+        departure_time: req.query['departure_time'],
         mode: 'driving',
         units: 'imperial'
     }, function (err, response) {
