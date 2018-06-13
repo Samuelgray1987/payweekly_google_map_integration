@@ -18,15 +18,18 @@ router.get('/', (req, res) => {
         optimize = true;
     }
 
-    googleMapsClient.directions({
-        origin: req.query['origin'],
-        destination: req.query['destination'],
-        optimize: optimize,
-        waypoints: processedPostcodes.join('|'),
-        departure_time: req.query['departure_time'],
-        mode: 'driving',
-        units: 'imperial'
-    }, function (err, response) {
+    let options = {};
+    options.origin = req.query['origin'];
+    options.destination = req.query['destination'];
+    options.optimize = optimize;
+    options.waypoints = processedPostcodes.join('|');
+    options.mode = 'driving';
+    options.units = 'imperial';
+    if(req.query['departure_time'] != 0) {
+        options.departure_time = req.query['departure_time'];
+    }
+
+    googleMapsClient.directions(options, function (err, response) {
         if (!err) {
             if (response.json['routes']) {
                 const route = response.json['routes'][0];
